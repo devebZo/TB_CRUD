@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="BoardMapper">
+	
+	<resultMap id="Board" type="java.util.HashMap">
+		<result column="BOARD_SEQ" property="boardSeq" />
+		<result column="WRITER" property="writer" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+		<result column="REG_DATE" property="regDate" />
+		
+		<result column="UPT_DATE" property="uptDate" />
+		<result column="VIEW_CNT" property="viewCnt" />
+	</resultMap>
+	
+	<select id="showBoardList" resultMap="Board">
+	    select
+	        board_seq,
+	        writer,
+	        title,
+	        content,
+	        reg_date,
+	        upt_date,
+	        view_cnt
+	    from board
+	    order by board_seq desc
+	</select>
+	
+    <insert id="createBoard">
+        insert into board(
+            board_seq,
+            writer,
+            title,
+            content,
+            reg_date,
+            view_cnt
+            )
+        values (
+            (select nvl( max(board_seq), 0 ) + 1 from board),
+            #{writer},
+            #{title},
+            #{content},
+            sysdate,
+            0
+        )
+    </insert>
+   
+</mapper>
