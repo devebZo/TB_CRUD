@@ -11,6 +11,7 @@ public class BoardVO {
 	private Date regDate;
 	private Date uptDate;
 	private Integer viewCnt;
+	
 	public Integer getBoardSeq() {
 		return boardSeq;
 	}
@@ -52,6 +53,22 @@ public class BoardVO {
 	}
 	public void setViewCnt(Integer viewCnt) {
 		this.viewCnt = viewCnt;
+	}
+	public BoardVO(Integer boardSeq, String writer, String title, String content, Date regDate, Date uptDate,
+			Integer viewCnt) {
+		super();
+		this.boardSeq = boardSeq;
+		this.writer = writer;
+		this.title = title;
+		this.content = content;
+		this.regDate = regDate;
+		this.uptDate = uptDate;
+		this.viewCnt = viewCnt;
+	}
+	@Override
+	public String toString() {
+		return "BoardVO [boardSeq=" + boardSeq + ", writer=" + writer + ", title=" + title + ", content=" + content
+				+ ", regDate=" + regDate + ", uptDate=" + uptDate + ", viewCnt=" + viewCnt + "]";
 	}
 
 }

@@ -49,5 +49,25 @@
             0
         )
     </insert>
+    
+    <select id="showBoard" resultMap="Board">
+    	select
+    		board_seq,
+    		writer,
+    		title,
+    		content,
+    		reg_date,
+    		upt_date,
+    		view_cnt
+    	from board
+    	where board_seq = #{seq}
+    </select>
+    
+    <update id="incViewCnt">
+    	update board
+    	set
+    		view_cnt = nvl(view_cnt, 0) + 1
+    	where board_seq = #{seq}
+    </update>
    
 </mapper>

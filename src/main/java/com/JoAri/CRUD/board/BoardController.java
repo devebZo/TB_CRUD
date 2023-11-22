@@ -39,4 +39,18 @@ public class BoardController {
 		return "redirect:/list";
 	}
 	
+	@RequestMapping(value="/read/{seq}", method = RequestMethod.GET)
+	public ModelAndView readBoard(@PathVariable("seq") int seq, ModelAndView mav) {
+		Map<String, Object> boardMap = boardSer.showBoard(seq);
+		
+		if(boardMap != null) {
+			boardSer.incViewCnt(seq);
+		}
+		
+		mav.addObject("board", boardMap);
+		mav.setViewName("read");
+		
+		return mav;
+	}
+	
 }

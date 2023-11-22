@@ -22,5 +22,14 @@ public class BoardDaoImpl implements BoardDao{
 	public void createBoard(Map<String, Object> param) {
 		sqlsession.insert("BoardMapper.createBoard", param);
 	}
+	
+	@Override
+	public Map<String, Object> showBoard(int seq) {
+		return sqlsession.selectOne("BoardMapper.showBoard", seq);
+	}
+	@Override
+	public void incViewCnt(int seq) {
+		sqlsession.update("BoardMapper.incViewCnt", seq);
+	}
 
 }

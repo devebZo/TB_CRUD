@@ -8,5 +8,8 @@ public interface BoardDao {
 	List<Map<String, Object>> getList();
 	
 	void createBoard(Map<String, Object> param);
+	
+	Map<String, Object> showBoard(int seq);
+	void incViewCnt(int seq);
 
 }

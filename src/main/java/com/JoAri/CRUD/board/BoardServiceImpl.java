@@ -20,4 +20,14 @@ public class BoardServiceImpl implements BoardService{
 	public void createBoard(Map<String, Object> param) {
 		boardDao.createBoard(param);
 	}
+	
+	@Override
+	public Map<String, Object> showBoard(int seq) {
+		return boardDao.showBoard(seq);
+	}
+	@Override
+	public void incViewCnt(int seq) {
+		boardDao.incViewCnt(seq);
+	}
+	
 }
