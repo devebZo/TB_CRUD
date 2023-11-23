@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class BoardController {
-// new branch ±â³ä
+
 	@Autowired
 	private BoardService boardSer;
 
