@@ -69,5 +69,14 @@
     		view_cnt = nvl(view_cnt, 0) + 1
     	where board_seq = #{seq}
     </update>
+    
+    <update id="updateBoard">
+    	update board
+    	set
+    		title = #{title},
+    		content = #{content},
+    		upt_date = sysdate
+    	where board_seq = #{seq}
+    </update>
    
 </mapper>

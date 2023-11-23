@@ -53,4 +53,13 @@ public class BoardController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/update", method = RequestMethod.POST)
+	public String updateBoard(@RequestParam Map<String, Object> param) {
+		boardSer.updateBoard(param);
+		
+		int seq = Integer.parseInt(param.get("seq").toString());
+		
+		return "redirect:/read/"+seq;
+	}
+	
 }

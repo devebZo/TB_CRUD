@@ -13,10 +13,12 @@
 </head>
 <body>
 
+	<form id='updateForm'>
 	<header>
-	<div class="container">
-		<h1>Read Page : ${board.title }</h1>
-	</div>
+		<div class="container">
+			<h1 id='title1'>Read Page : ${board.title}</h1>
+			<input type='hidden' id='title2' name='title' value='${board.title}'>
+		</div>
 	</header>
 	
 	<nav>
@@ -31,6 +33,7 @@
 	
 	<main>
 		<div class='container'>
+			<input type='hidden' name='seq' value='${board.boardSeq }'> 
 			<table>
 				<thead>
 					<tr>
@@ -46,14 +49,18 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td colspan="4">${board.content }</td>
+						<td id="readTd" colspan="4">${board.content }</td>
+						<td id="updateTd" style="display:none;" colspan="4"><textarea name='content'>${board.content }</textarea></td>
 					</tr>
 				</tbody>
 			</table>
-			<button>수정</button>
-			<button onclick='goToPrevPage()'>이전</button>
+			<button onclick='letsUpdateTime(event)' id='updateBtn'>수정</button>
+			<button onclick='goToPrevPage(event)' id='prevBtn'>이전</button>
+			<button onclick='doneUpdate(event)' id='doneUBtn' style="display:none;" >수정</button>
+			<button onclick='cancelUpdate(event)' id='cancelBtn' style="display:none;" >취소</button>
 		</div>
 	</main>
+	</form>
 	
 	<aside>
 		<div class='container'>
@@ -64,8 +71,47 @@
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 	<script>
-		function goToPrevPage(){
+		function goToPrevPage(event){
+			event.preventDefault();
+			
 			window.history.back();
+		}
+		
+		function letsUpdateTime(event){
+			event.preventDefault();
+			
+			$('#updateBtn').hide();
+			$('#prevBtn').hide();
+			$('#doneUBtn').show();
+			$('#cancelBtn').show();
+
+			$('#readTd').hide();
+			$('#updateTd').show();
+			$('#title1').hide();
+			$('#title2').attr('type', 'text');
+		}
+		
+		function doneUpdate(event){
+			event.preventDefault();
+			
+			$('#updateForm').attr({
+				'action' : '/update',
+				'method' : 'post'
+			}).submit();
+		}
+		
+		function cancelUpdate(event){
+			event.preventDefault();
+
+			$('#doneUBtn').hide();
+			$('#cancelBtn').hide();
+			$('#updateBtn').show();
+			$('#prevBtn').show();
+
+			$('#updateTd').hide();
+			$('#readTd').show();
+			$('#title1').show();
+			$('#title2').attr('type', 'hidden');
 		}
 	</script>
 

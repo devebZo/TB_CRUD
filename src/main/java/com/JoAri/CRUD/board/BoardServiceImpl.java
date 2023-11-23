@@ -30,4 +30,9 @@ public class BoardServiceImpl implements BoardService{
 		boardDao.incViewCnt(seq);
 	}
 	
+	@Override
+	public void updateBoard(Map<String, Object> param) {
+		boardDao.updateBoard(param);
+	}
+	
 }

@@ -31,5 +31,10 @@ public class BoardDaoImpl implements BoardDao{
 	public void incViewCnt(int seq) {
 		sqlsession.update("BoardMapper.incViewCnt", seq);
 	}
+	
+	@Override
+	public void updateBoard(Map<String, Object> param) {
+		sqlsession.update("BoardMapper.updateBoard", param);
+	}
 
 }

@@ -11,5 +11,7 @@ public interface BoardDao {
 	
 	Map<String, Object> showBoard(int seq);
 	void incViewCnt(int seq);
+	
+	void updateBoard(Map<String, Object> param);
 
 }
