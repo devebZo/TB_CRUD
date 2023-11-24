@@ -31,34 +31,37 @@
 	
 	<main>
 		<div class='container'>
-			<button onclick='createBoardBtn(event)'>글쓰기</button>
-			<table>
-				<thead>
-					<tr>
-						<th><input type='checkbox' id='allChk'></th> <!-- 체크박스 -->
-						<th>번호</th>
-						<th>글쓴이</th>
-						<th>제목</th>
-						<th>만든 날짜</th>
-						<th>수정 날짜</th>
-						<th>조회수</th>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<c:forEach var="boardList" items="${boardList}">
+			<form id='delForm'>
+				<button onclick='createBoardBtn(event)'>글쓰기</button>
+				<button onclick='deleteBoardBtn(event)'>삭제</button>
+				<table>
+					<thead>
 						<tr>
-							<td><input type="checkbox" name="chkBox" value="${boardList.seq}"></td>
-							<td>${boardList.boardSeq}</td>
-							<td>${boardList.writer}</td>
-							<td><a href="${path}/read/${boardList.boardSeq}">${boardList.title}</a></td> <!-- title -->
-							<td><fmt:formatDate value="${boardList.regDate}" pattern="yyyy-MM-dd" /></td>
-							<td><fmt:formatDate value="${boardList.uptDate}" pattern="yyyy-MM-dd" /></td>
-							<td>${boardList.viewCnt}</td>
+							<th><input type='checkbox' id='allChk'></th> <!-- 체크박스 -->
+							<th>번호</th>
+							<th>글쓴이</th>
+							<th>제목</th>
+							<th>만든 날짜</th>
+							<th>수정 날짜</th>
+							<th>조회수</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+					</thead>
+					
+					<tbody>
+						<c:forEach var="boardList" items="${boardList}">
+							<tr>
+								<td><input type="checkbox" name="chkBox" value="${boardList.boardSeq}"></td>
+								<td>${boardList.boardSeq}</td>
+								<td>${boardList.writer}</td>
+								<td><a href="${path}/read/${boardList.boardSeq}">${boardList.title}</a></td> <!-- title -->
+								<td><fmt:formatDate value="${boardList.regDate}" pattern="yyyy-MM-dd" /></td>
+								<td><fmt:formatDate value="${boardList.uptDate}" pattern="yyyy-MM-dd" /></td>
+								<td>${boardList.viewCnt}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</form>
 		</div>
 	</main>
 	
@@ -76,6 +79,33 @@
 			
 			window.location.href = '/create';
 		}
+		
+		function deleteBoardBtn(event){
+			event.preventDefault();
+			
+			if($('[name=chkBox]:checked').length == 0){
+				alert('삭제할 게시물을 선택해 주세요.');
+				return;
+			}
+			
+			$('#delForm').attr({
+				'action' : '/delete',
+				'method' : 'post'
+			}).submit();
+		}
+		
+		$(function(){
+			// 체크박스
+			$('#allChk').on('click', function(){
+				var isAllChked = $('#allChk').is(':checked');
+				
+				if(isAllChked){
+					$('[name=chkBox]').prop('checked', true);
+				} else {
+					$('[name=chkBox]').prop('checked', false);
+				}
+			});
+		})
 	</script>
 
 </body>

@@ -13,5 +13,7 @@ public interface BoardService {
 	void incViewCnt(int seq);
 	
 	void updateBoard(Map<String, Object> param);
+	
+	void deleteBoard(Integer[] chk);
 
 }

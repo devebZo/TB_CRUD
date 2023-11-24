@@ -62,4 +62,11 @@ public class BoardController {
 		return "redirect:/read/"+seq;
 	}
 	
+	@RequestMapping(value="/delete", method = RequestMethod.POST)
+	public String deletePost(Integer[] chkBox) {
+		boardSer.deleteBoard(chkBox);
+		
+		return "redirect:/list";
+	}
+	
 }

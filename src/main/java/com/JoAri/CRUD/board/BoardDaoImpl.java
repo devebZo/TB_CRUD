@@ -36,5 +36,10 @@ public class BoardDaoImpl implements BoardDao{
 	public void updateBoard(Map<String, Object> param) {
 		sqlsession.update("BoardMapper.updateBoard", param);
 	}
+	
+	@Override
+	public void deleteBoard(Integer[] chk) {
+		sqlsession.delete("BoardMapper.deleteBoard", chk);
+	}
 
 }

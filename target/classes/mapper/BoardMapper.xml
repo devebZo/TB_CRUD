@@ -78,5 +78,14 @@
     		upt_date = sysdate
     	where board_seq = #{seq}
     </update>
+    
+    <delete id="deleteBoard" parameterType="int">
+    	delete from board
+    	where board_seq in
+    	<foreach item="item" index="index" collection="array"
+    		open="(" separator="," close=")">
+    		#{item}
+    	</foreach>
+    </delete>
    
 </mapper>
