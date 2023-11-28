@@ -18,7 +18,29 @@
 		<result column="VIEW_CNT" property="viewCnt" />
 	</resultMap>
 	
-	<select id="showBoardList" resultMap="Board">
+	<sql id='searchWhere'>
+		<where>
+			<choose>
+				<when test='searchType == "choise" '>
+					1=1
+				</when>
+				<when test='searchType == "title" '>
+					title like '%' || #{keyword} || '%'
+				</when>
+				<when test='searchType == "writer" '>
+					writer like '%' || #{keyword} || '%'
+				</when>
+				<when test='searchType == "titleAndContent" '>
+					(title like '%' || #{keyword} || '%' or content like '%' || #{keyword} || '%')
+				</when> 
+			</choose>
+			<if test='startDate != null and startDate != "" '>
+				and to_char(reg_date, 'yyyy-MM-dd') between #{startDate} and #{endDate}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id='selectAll'>
 	    select
 	        board_seq,
 	        writer,
@@ -27,8 +49,24 @@
 	        reg_date,
 	        upt_date,
 	        view_cnt
-	    from board
-	    order by board_seq desc
+	</sql>
+	
+	<select id="showBoardList" resultMap="Board">
+		<include refid='selectAll'></include>
+	    from (
+			<include refid='selectAll'></include>,
+	    		row_number() over(order by board_seq desc) rnum
+			from board
+	    	<include refid='searchWhere'></include>
+	    	order by board_seq desc
+		) 
+	    where rnum between #{startRow} and #{endRow}
+	</select>
+	
+	<select id='boardsNum' resultType='int'>
+		select count(board_seq)
+		from board
+		<include refid='searchWhere'></include>
 	</select>
 	
     <insert id="createBoard">

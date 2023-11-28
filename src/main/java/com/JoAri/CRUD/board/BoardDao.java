@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface BoardDao {
 	
-	List<Map<String, Object>> getList();
+	List<Map<String, Object>> getList(Map<String, Object> param);
 	
 	void createBoard(Map<String, Object> param);
 	
@@ -15,5 +15,7 @@ public interface BoardDao {
 	void updateBoard(Map<String, Object> param);
 	
 	void deleteBoard(Integer[] chk);
+	
+	int boardsNum(Map<String, Object> param);
 
 }

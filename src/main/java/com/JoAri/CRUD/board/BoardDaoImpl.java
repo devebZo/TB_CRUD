@@ -14,8 +14,8 @@ public class BoardDaoImpl implements BoardDao{
 	private SqlSessionTemplate sqlsession;
 	
 	@Override
-	public List<Map<String, Object>> getList(){
-		return sqlsession.selectList("BoardMapper.showBoardList");
+	public List<Map<String, Object>> getList(Map<String, Object> param){
+		return sqlsession.selectList("BoardMapper.showBoardList", param);
 	}
 	
 	@Override
@@ -40,6 +40,11 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public void deleteBoard(Integer[] chk) {
 		sqlsession.delete("BoardMapper.deleteBoard", chk);
+	}
+	
+	@Override
+	public int boardsNum(Map<String, Object> param) {
+		return sqlsession.selectOne("BoardMapper.boardsNum", param);
 	}
 
 }

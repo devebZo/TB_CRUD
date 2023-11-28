@@ -12,8 +12,8 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDao boardDao;
 	
 	@Override
-	public List<Map<String, Object>> getList(){
-		return boardDao.getList();
+	public List<Map<String, Object>> getList(Map<String, Object> param){
+		return boardDao.getList(param);
 	}
 	
 	@Override
@@ -38,6 +38,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void deleteBoard(Integer[] chk) {
 		boardDao.deleteBoard(chk);
+	}
+	
+	@Override
+	public int boardsNum(Map<String, Object> param) {
+		return boardDao.boardsNum(param);
 	}
 	
 }
