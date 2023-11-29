@@ -95,4 +95,39 @@ public class BoardController {
 		return "redirect:/list";
 	}
 	
+	@RequestMapping(value = "ajaxList")
+	public String ajaxList(Model model, @RequestParam Map<String, Object> param) {
+		BoardPager pager1 = new BoardPager();
+
+		int totalCount = boardSer.boardsNum(param); // 총 게시글 수
+		pager1.setTotPage(totalCount); // 총 페이지 수 setter
+		int totalPage = pager1.getTotPage(); // 총 페이지 수 getter
+		int pageNum = 0;
+		// Default 페이지 설정
+		if (param.get("pageNum") == null || Integer.parseInt(param.get("pageNum").toString()) == 1) {
+			pageNum = 1;
+		} else {
+			pageNum = Integer.parseInt(param.get("pageNum").toString());
+		}
+
+		if (pageNum > totalPage)
+			pageNum = totalPage;
+		if (pageNum < 1)
+			pageNum = 1;
+
+		BoardPager pager2 = new BoardPager(totalCount, pageNum);
+		int startRow = pager2.getPageBegin();
+		int endRow = pager2.getPageEnd();
+
+		param.put("startRow", startRow);
+		param.put("endRow", endRow);
+		
+		List<Map<String, Object>> boardList = boardSer.getList(param);
+		
+		model.addAttribute("pager", pager2);
+    	model.addAttribute("boardList", boardList);
+
+		return "ajaxList";
+	}
+	
 }
