@@ -46,5 +46,10 @@ public class BoardDaoImpl implements BoardDao{
 	public int boardsNum(Map<String, Object> param) {
 		return sqlsession.selectOne("BoardMapper.boardsNum", param);
 	}
+	
+	@Override
+	public int getMaxSeq() {
+		return sqlsession.selectOne("BoardMapper.getMaxSeq");
+	}
 
 }

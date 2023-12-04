@@ -125,5 +125,11 @@
     		#{item}
     	</foreach>
     </delete>
+    
+    <select id='getMaxSeq' resultType='int'>
+    	select
+    	 nvl(max(board_seq), 0) + 1
+		from board
+    </select>
    
 </mapper>

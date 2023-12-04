@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -59,7 +61,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/create", method = RequestMethod.POST)
-	public String createPost(@RequestParam Map<String, Object> param) {
+	public String createPost(@RequestParam Map<String, Object> param, @RequestPart("imgs") List<MultipartFile> imgs) {
+		param.put("imgs", imgs);
 		boardSer.createBoard(param);
 		
 		return "redirect:/list";

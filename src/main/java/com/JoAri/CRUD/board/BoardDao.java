@@ -17,5 +17,7 @@ public interface BoardDao {
 	void deleteBoard(Integer[] chk);
 	
 	int boardsNum(Map<String, Object> param);
+	
+	int getMaxSeq();
 
 }

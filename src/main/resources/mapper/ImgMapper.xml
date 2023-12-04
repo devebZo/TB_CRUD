@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="ImgMapper">
+	
+	<resultMap id='imgMap' type='java.util.HashMap'>
+		<result column='FILE_SEQ' property='fileSeq' />
+		<result column='REAL_NAME' property='realName' />
+		<result column='SAVE_NAME' property='saveName' />
+		<result column='REG_DATE' property='regDate' />
+		<result column='SAVE_PATH' property='savePath' />
+		
+		<result column='BOARD_SEQ' property='boardSeq' />
+	</resultMap>
+	
+	<insert id='uploadImg'>
+		INSERT INTO BOARD_IMG(
+			FILE_SEQ,
+			REAL_NAME,
+			SAVE_NAME,
+			REG_DATE,
+			SAVE_PATH,
+			BOARD_SEQ
+		) VALUES (
+			(SELECT NVL(MAX(FILE_SEQ),0)+1 FROM BOARD_IMG),
+			#{realName},
+			#{saveName},
+			sysdate,
+			#{savePath},
+			#{boardSeq}
+		)
+	</insert>
+	
+	<select id='getImgList' resultMap='imgMap'>
+		SELECT
+			FILE_SEQ,
+			REAL_NAME,
+			SAVE_NAME,
+			REG_DATE,
+			SAVE_PATH,
+			BOARD_SEQ
+		FROM BOARD_IMG
+		WHERE BOARD_SEQ = #{boardSeq}
+	</select>
+	
+	<select id='getImgCount' resultType='int'>
+		SELECT
+			COUNT(BOARD_SEQ)
+		FROM BOARD_IMG
+		WHERE BOARD_SEQ = #{boardSeq}
+	</select>
+	
+</mapper>
