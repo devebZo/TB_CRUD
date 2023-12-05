@@ -6,24 +6,30 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUpload {
 
-    private static final String UPLOAD_PATH = "C:\\Work\\temporary\\File_Practice\\"; // 업로드할 파일 경로
+	private String UPLOAD_PATH = "/resources/images"; // 업로드할 파일 경로
 
-    public void fileUpload(MultipartFile file, String savedFileName) {
-        if (!file.isEmpty()) {
-            try {
-                Path uploadPath = new File(UPLOAD_PATH + savedFileName).toPath();
-                Files.copy(file.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                // 예외 처리
-            }
-        }
-    }
+	public void fileUpload(MultipartFile file, String savedFileName, ServletContext servletContext) {
+		if (!file.isEmpty()) {
+			try {
+				String realPath = servletContext.getRealPath(UPLOAD_PATH);
+				Path uploadPath = new File(realPath + File.separator + savedFileName).toPath();
+				Files.copy(file.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
+				
+				System.out.println("Real Path: " + realPath);
 
-    public String getUploadPath() {
-        return UPLOAD_PATH;
-    }
+			} catch (IOException e) {
+				e.printStackTrace(); // 예외 처리
+			}
+		}
+	}
+
+	public String getUploadPath() {
+		return UPLOAD_PATH;
+	}
 }

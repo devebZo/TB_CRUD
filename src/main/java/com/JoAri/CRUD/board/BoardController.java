@@ -14,15 +14,20 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.JoAri.CRUD.img.ImgService;
+
 @Controller
 public class BoardController {
 
 	@Autowired
 	private BoardService boardSer;
 
+	@Autowired
+	private ImgService imgSer;
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, @RequestParam Map<String, Object> param) {
-        BoardPager pager1 = new BoardPager();
+		BoardPager pager1 = new BoardPager();
 
 		int totalCount = boardSer.boardsNum(param); // ÃÑ °Ô½Ã±Û ¼ö
 		pager1.setTotPage(totalCount); // ÃÑ ÆäÀÌÁö ¼ö setter
@@ -46,58 +51,64 @@ public class BoardController {
 
 		param.put("startRow", startRow);
 		param.put("endRow", endRow);
-		
+
 		List<Map<String, Object>> boardList = boardSer.getList(param);
-		
+
 		model.addAttribute("pager", pager2);
-    	model.addAttribute("boardList", boardList);
-        
-    	return "listPage";
-    }
-	
-	@RequestMapping(value="/create", method = RequestMethod.GET)
+		model.addAttribute("boardList", boardList);
+
+		return "listPage";
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create() {
 		return "create";
 	}
-	
-	@RequestMapping(value="/create", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public String createPost(@RequestParam Map<String, Object> param, @RequestPart("imgs") List<MultipartFile> imgs) {
 		param.put("imgs", imgs);
 		boardSer.createBoard(param);
-		
+
 		return "redirect:/list";
 	}
-	
-	@RequestMapping(value="/read/{seq}", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/read/{seq}", method = RequestMethod.GET)
 	public ModelAndView readBoard(@PathVariable("seq") int seq, ModelAndView mav) {
 		Map<String, Object> boardMap = boardSer.showBoard(seq);
-		
-		if(boardMap != null) {
+
+		if (boardMap != null) {
 			boardSer.incViewCnt(seq);
 		}
-		
+
+		int countImg = imgSer.getImgCount(seq);
+		mav.addObject("imgNum", countImg);
+
+		List<Map<String, Object>> imgList = imgSer.getImgList(seq);
+		mav.addObject("imgList", imgList);
+
 		mav.addObject("board", boardMap);
 		mav.setViewName("read");
-		
+
 		return mav;
 	}
-	
-	@RequestMapping(value="/update", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String updateBoard(@RequestParam Map<String, Object> param) {
 		boardSer.updateBoard(param);
-		
+
 		int seq = Integer.parseInt(param.get("seq").toString());
-		
-		return "redirect:/read/"+seq;
+
+		return "redirect:/read/" + seq;
 	}
-	
-	@RequestMapping(value="/delete", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public String deletePost(Integer[] chkBox) {
 		boardSer.deleteBoard(chkBox);
-		
+
 		return "redirect:/list";
 	}
-	
+
 	@RequestMapping(value = "ajaxList")
 	public String ajaxList(Model model, @RequestParam Map<String, Object> param) {
 		BoardPager pager1 = new BoardPager();
@@ -124,13 +135,13 @@ public class BoardController {
 
 		param.put("startRow", startRow);
 		param.put("endRow", endRow);
-		
+
 		List<Map<String, Object>> boardList = boardSer.getList(param);
-		
+
 		model.addAttribute("pager", pager2);
-    	model.addAttribute("boardList", boardList);
+		model.addAttribute("boardList", boardList);
 
 		return "ajaxList";
 	}
-	
+
 }

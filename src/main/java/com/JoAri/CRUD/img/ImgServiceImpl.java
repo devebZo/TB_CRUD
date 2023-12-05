@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +19,7 @@ public class ImgServiceImpl implements ImgService{
 	private ImgDao imgDao;
 	
 	@Override
-	public void uploadImg(List<MultipartFile> imgs, int boardSeq) {
+	public void uploadImg(List<MultipartFile> imgs, int boardSeq, ServletContext servletContext) {
 		List<Map<String, Object>> imgList = new ArrayList<Map<String,Object>>();
 		
 		for(MultipartFile file : imgs) {
@@ -31,7 +33,7 @@ public class ImgServiceImpl implements ImgService{
 			imgMap.put("boardSeq", boardSeq);
 			
 			FileUpload fileUpload = new FileUpload();
-			fileUpload.fileUpload(file, savedFileName);
+			fileUpload.fileUpload(file, savedFileName, servletContext);
 			
 			imgMap.put("savePath", fileUpload.getUploadPath());
 			

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.swing.plaf.multi.MultiFileChooserUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Autowired
 	private ImgService imgSer;
+
+    @Autowired
+    private ServletContext servletContext;
 	
 	@Override
 	public List<Map<String, Object>> getList(Map<String, Object> param){
@@ -43,7 +47,7 @@ public class BoardServiceImpl implements BoardService{
 		
 		@SuppressWarnings("unchecked")
 		List<MultipartFile> imgFiles = (List<MultipartFile>) param.get("imgs");
-		imgSer.uploadImg(imgFiles, boardSeq);
+		imgSer.uploadImg(imgFiles, boardSeq, servletContext);
 	}
 	
 	@Override
