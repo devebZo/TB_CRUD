@@ -10,5 +10,7 @@ public interface ImgDao {
 	List<Map<String, Object>> getImgList(int boardSeq);
 	
 	int getImgCount(int boardSeq);
+	
+	Map<String, Object> downImg(int fileSeq);
 
 }

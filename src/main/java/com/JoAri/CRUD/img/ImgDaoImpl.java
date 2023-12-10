@@ -30,4 +30,9 @@ public class ImgDaoImpl implements ImgDao{
 		return sqlSession.selectOne("ImgMapper.getImgCount", boardSeq);
 	}
 	
+	@Override
+	public Map<String, Object> downImg(int fileSeq){
+		return sqlSession.selectOne("ImgMapper.downImg", fileSeq);
+	}
+	
 }

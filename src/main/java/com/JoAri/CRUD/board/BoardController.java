@@ -144,4 +144,13 @@ public class BoardController {
 		return "ajaxList";
 	}
 
+	@RequestMapping(value = "downImg")
+	public ModelAndView imgDown(@RequestParam("fileSeq") int fileSeq, ModelAndView mav) {
+		imgSer.downImg(fileSeq, mav);
+
+		mav.setViewName("ImgDownView");
+
+		return mav;
+	}
+
 }

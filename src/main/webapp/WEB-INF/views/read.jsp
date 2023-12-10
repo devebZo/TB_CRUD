@@ -64,6 +64,7 @@
 								<c:forEach items='${imgList }' var='imgs' varStatus='status'>
 									<c:if test='${status.count <= imgNum }'>
 										<img src="${imgs.savePath}/${imgs.saveName}" />
+										<a href="${path }/downImg?fileSeq=${imgs.fileSeq}">[다운]</a>
 										<c:if test="${status.count != imgNum}">
 											<br>
 										</c:if>

@@ -54,4 +54,16 @@
 		WHERE BOARD_SEQ = #{boardSeq}
 	</select>
 	
+	<select id="downImg" resultMap="imgMap">
+		SELECT
+			FILE_SEQ,
+			REAL_NAME,
+			SAVE_NAME,
+			REG_DATE,
+			SAVE_PATH,
+			BOARD_SEQ
+		FROM BOARD_IMG
+		WHERE FILE_SEQ = #{fileSeq}
+	</select>
+	
 </mapper>

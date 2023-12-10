@@ -11,6 +11,7 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 @Service
 public class ImgServiceImpl implements ImgService{
@@ -51,6 +52,13 @@ public class ImgServiceImpl implements ImgService{
 	@Override
 	public int getImgCount(int boardSeq) {
 		return imgDao.getImgCount(boardSeq);
+	}
+	
+	@Override
+	public void downImg(int fileSeq, ModelAndView mav) {
+		Map<String, Object> map = imgDao.downImg(fileSeq);
+		
+		mav.addObject("dto", map);
 	}
 
 }
